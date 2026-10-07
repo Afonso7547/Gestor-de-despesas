@@ -39,3 +39,8 @@ for despesa in despesas:
          print(f"{apresentacao[chave]}:{despesa[chave]}")
 
      print(40*'-')
+#calcular o total das despesas
+total=0
+for despesa in despesas:
+    total+=despesa["valor"]
+print(f"Total das despesas: $ {total:.2f}")
