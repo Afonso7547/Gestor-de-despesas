@@ -1,6 +1,7 @@
+#sistema de gestão de despesas
 from datetime import datetime
 despesas=[]
-apresentacao={"categoria":"Categoria","valor":"Valor","data":"Data","estabelecimento"}
+apresentacao={"categoria":"Categoria","valor":"Valor","data":"Data","estabelecimento":"Estabelecimento","descricao":"Descrição"}
 repetir="s"
 while(repetir.lower()=="s"):
     despesa={"categoria":None,"valor":None,"data":None,"estabelecimento":None,"descricao":None}
@@ -33,8 +34,8 @@ while(repetir.lower()=="s"):
 for despesa in despesas:
      for chave in despesa:
         if chave== "valor":
-           print(f"{chave}:{despesa[chave]:.2f}")
+           print(f"{apresentacao[chave]}:{despesa[chave]:.2f}")
         else:
-         print(f"{chave}:{despesa[chave]}")
+         print(f"{apresentacao[chave]}:{despesa[chave]}")
 
      print(40*'-')
