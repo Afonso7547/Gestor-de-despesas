@@ -44,3 +44,20 @@ total=0
 for despesa in despesas:
     total+=despesa["valor"]
 print(f"Total das despesas: $ {total:.2f}")
+#calcular a média
+if len(despesas)==0:
+    print("não há despesas para considerar")
+else:
+     media=total/len(despesas)
+     print(f"média das despesas:{media:.2f}")
+#calcular a maior e menor despesa
+maior=despesas[0]["valor"]
+menor=despesas[0]["valor"]
+for despesa in despesas:
+    if despesa["valor"]<menor:
+     menor=despesa["valor"]
+    if despesa["valor"]> maior:
+         maior=despesa["valor"]
+print(f"a maior despesa foi no valor de:{maior:.2f}")
+print(f"a menor despesa foi no valor de:{menor:.2f}")
+
