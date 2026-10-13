@@ -65,6 +65,7 @@ while(True):
           f"3- consultar estatisticas\n"
           f"4-eliminar uma despesa\n"
           f"5-pesquisar uma categoria\n"
+          f"6-alterar uma despesa\n"
           f"0-sair")
  opcao=input("insira a sua opcao:")
  print(40*'-')
@@ -132,6 +133,53 @@ while(True):
        print("nenhuma categoria corresponde à pesquisa")
     else:
        mostrar_lista(nova_lista)
+
+#ALTERAR DESPESAS
+ elif(opcao=="6"):
+    mostrar_lista(despesas)
+    while(True):
+     despesa=input("escolha o numero da despesa que quer alterar(escolha 0 pra retroceder)")
+     try :
+           opcao=int(despesa)
+           if(opcao==0):
+                break
+           elif (opcao-1)>=len(despesas) or (opcao)<1:
+            print("insira uma opção válida:")
+           else:
+            break
+     except:
+            print("insira uma opção válida:")
+    if (opcao>0):
+       while(True):
+        campo=input("insira a categoria que quer alterar:")
+        if campo in despesas[opcao-1]:
+           while(True):
+            novo_valor=input("insira o novo valor:")
+            if campo=="valor":
+              try:
+               novo_valor=float(novo_valor)
+               despesas[opcao-1][campo]=novo_valor
+               break
+              except:
+                 print("insira um valor válido:")
+            elif(campo=="data"):
+               try:
+                  datetime.strptime(novo_valor, "%d/%m/%Y")
+                  despesas[opcao-1][campo]=novo_valor
+                  break
+               except ValueError:
+                  print("Valor da data inválido")
+            else:
+               despesas[opcao-1][campo]=novo_valor
+               break
+
+           break
+        else:
+           print("insira um valor válido")
+         
+    
+ 
+ 
  elif(opcao=="0"):
 #guardar as despesas em um arquivo json
   try:
