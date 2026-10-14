@@ -12,6 +12,7 @@ def mostrar_lista(despesas):
                   print(f"{apresentacao[chave]}:{despesa[chave]}")
          indice=indice+1
          print(40*"-")
+
 def calcular_estatisticas(despesas):
    #calcular o total das despesas
   total=0
@@ -47,7 +48,20 @@ def calcular_estatisticas(despesas):
   menor_categoria=min(total_despesas,key=lambda categoria:total_despesas[categoria])
   print(f"a categoria mais custosa foi:{maior_categoria} com valor de {total_despesas[maior_categoria]}\n"
      f"a categoria menos custosa foi {menor_categoria} com valor de {total_despesas[menor_categoria]}")
+
+def pedir_valor():
+   while(True):
+    try:
+      despesa=float(input("insira o valor da despesa:"))
+      if despesa>0:
+         return despesa 
+      else:
+         print("insira um valor válido:")            
+    except ValueError:
+      print("insira um valor válido:")
    
+
+ #MAIN#  
 try:
  with open("despesas.json","r") as ficheiro:
      despesas=json.load(ficheiro)
@@ -76,16 +90,7 @@ while(True):
     while(repetir.lower()=="s"):
      despesa={"categoria":None,"valor":None,"data":None,"estabelecimento":None,"descricao":None}
      despesa["categoria"]=input("insira a categoria da despesa:")
-     valor_valido=False
-     while(valor_valido==False):
-        try:
-                despesa["valor"]=float(input("insira o valor da despesa:"))
-                if despesa["valor"]>0:
-                 valor_valido=True
-                else:
-                     print("insira um valor válido:")
-        except:
-             print("insira um valor válido:")
+     despesa["valor"]=pedir_valor()
      despesa["estabelecimento"]=input("insira o estabelecimento da despesa:")
      despesa["descricao"]=input("insira a descrição da despesa:")
      data=input("insira a data da despesa:")
@@ -134,8 +139,17 @@ while(True):
     else:
        mostrar_lista(nova_lista)
 
+
+
+#----------------------------------------
+
 #ALTERAR DESPESAS
+
+#----------------------------------------
  elif(opcao=="6"):
+   if (len(despesas)==0):
+       print("a lita de despesas está vazia")
+   else:
     mostrar_lista(despesas)
     while(True):
      despesa=input("escolha o numero da despesa que quer alterar(escolha 0 pra retroceder)")
@@ -150,26 +164,31 @@ while(True):
      except:
             print("insira uma opção válida:")
     if (opcao>0):
+       for chave in apresentacao.keys():
+          print(apresentacao[chave])
        while(True):
-        campo=input("insira a categoria que quer alterar:")
+        campo=input("insira o campo que quer alterar:").lower().strip()
+        for chave, campo_alterar in apresentacao.items():
+         if campo==campo_alterar.lower():
+          campo=chave
         if campo in despesas[opcao-1]:
            while(True):
-            novo_valor=input("insira o novo valor:")
             if campo=="valor":
-              try:
-               novo_valor=float(novo_valor)
-               despesas[opcao-1][campo]=novo_valor
-               break
-              except:
-                 print("insira um valor válido:")
+              novo_valor=pedir_valor()
+           
+              despesas[opcao-1][campo]=novo_valor
+              break
+              
             elif(campo=="data"):
                try:
+                  novo_valor=input("insira a nova data:")
                   datetime.strptime(novo_valor, "%d/%m/%Y")
                   despesas[opcao-1][campo]=novo_valor
                   break
                except ValueError:
                   print("Valor da data inválido")
             else:
+               novo_valor=input("insira o novo valor:")
                despesas[opcao-1][campo]=novo_valor
                break
 
@@ -177,9 +196,9 @@ while(True):
         else:
            print("insira um valor válido")
          
-    
- 
- 
+ #  
+ #
+ #-----------------------------------------------------------
  elif(opcao=="0"):
 #guardar as despesas em um arquivo json
   try:
